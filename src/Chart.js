@@ -84,8 +84,13 @@ export default class Chart extends Component<void, any, any> {
 			if (number > max) max = number;
 		});
 
-		min = Math.floor(min);
-		max = Math.ceil(max);
+		let ceilMax = Math.ceil(max);
+		let floorMin = Math.floor(min);
+
+		if ((ceilMax - floorMin) > this.props.verticalGridStep) {
+			min = floorMin;
+			max = ceilMax;
+		}
 
 		// Exit if we want tight bounds
 		if (this.props.tightBounds) {
